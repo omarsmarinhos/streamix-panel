@@ -1,0 +1,27 @@
+<div class="layout-container" [ngClass]="{ collapsed: isCollapsed() }">
+  <div class="overlay" (click)="toggleSizeSideBarContainer()"></div>
+  <aside class="sidebar-container">
+    <app-sidebar></app-sidebar>
+  </aside>
+  <button id="btn-menor" (click)="toggleSizeSideBarContainer()">
+    <mat-icon>keyboard_arrow_left</mat-icon>
+  </button>
+  <main #mainContainer class="main-container" cdkScrollable>
+    <div id="header-mobile">
+      <a routerLink="/">
+        <img src="logo-2.png" alt="El real logo 2 de streamix" width="48px">
+        <div>
+          <span>Panel</span>
+          <span>Administrativo</span>
+        </div>
+      </a>
+      <button (click)="toggleSizeSideBarContainer()" mat-icon-button class="burger-button">
+        <mat-icon class="my-icon">menu</mat-icon>
+      </button>
+    </div>
+    <div class="main-content">
+      <router-outlet />
+    </div>
+    <app-power-by></app-power-by>
+  </main>
+</div>

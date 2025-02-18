@@ -1,0 +1,226 @@
+<div class="sidebar-container" [ngClass]="{ collapsed: isCollapsed() }">
+  <div class="sidebar-header">
+    <a id="logo-mobile">&nbsp;</a>
+    <a id="logo-full">
+      @if (!isCollapsed()) {
+      <img src="logo.png" alt="Granja linda logo">
+      <div>
+        <span>Panel</span>
+        <span>Administrativo</span>
+      </div>
+      } @else {
+      <img src="logo-2.png" alt="Granja linda logo">
+      }
+    </a>
+    <button id="btn-cerrar" (click)="toggleSidebar()" mat-icon-button>
+      <mat-icon>clear</mat-icon>
+    </button>
+  </div>
+
+  <div class="sidebar-content">
+    <ul class="sidebar-nav">
+
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="sucursales" routerLinkActive="active" class="nav-link">
+          <mat-icon>store</mat-icon>
+          <span class="nav-text">Sucursales</span>
+        </a>
+      </li>
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="pedidos" routerLinkActive="active" class="nav-link">
+          <mat-icon>shopping_cart</mat-icon>
+          <span class="nav-text">Pedidos</span>
+        </a>
+      </li>
+      } @else {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="pedidos/{{authService.getIdSucursal()}}" routerLinkActive="active"
+          class="nav-link">
+          <mat-icon>shopping_cart</mat-icon>
+          <span class="nav-text">Pedidos</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="reportes" routerLinkActive="active" class="nav-link">
+          <mat-icon>summarize</mat-icon>
+          <span class="nav-text">Reportes</span>
+        </a>
+      </li>
+      } @else {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="reportes/{{authService.getIdSucursal()}}" routerLinkActive="active"
+          class="nav-link">
+          <mat-icon>summarize</mat-icon>
+          <span class="nav-text">Reportes</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="carousel" routerLinkActive="active" class="nav-link">
+          <mat-icon>view_carousel</mat-icon>
+          <span class="nav-text">Carousel</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="categorias" routerLinkActive="active" class="nav-link">
+          <mat-icon>category</mat-icon>
+          <span class="nav-text">Categorías</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="productos" routerLinkActive="active" class="nav-link">
+          <mat-icon>shopping_bag</mat-icon>
+          <span class="nav-text">Productos</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="clientes" routerLinkActive="active" class="nav-link">
+          <mat-icon>people</mat-icon>
+          <span class="nav-text">Clientes</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="usuarios" routerLinkActive="active" class="nav-link">
+          <mat-icon>person</mat-icon>
+          <span class="nav-text">Usuarios</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin() && false) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="promociones" routerLinkActive="active" class="nav-link">
+          <mat-icon>local_offer</mat-icon>
+          <span class="nav-text">Promociones</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="reservas" routerLinkActive="active" class="nav-link">
+          <mat-icon>event</mat-icon>
+          <span class="nav-text">Reservas</span>
+        </a>
+      </li>
+      } @else {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="reservas/{{authService.getIdSucursal()}}" routerLinkActive="active"
+          class="nav-link">
+          <mat-icon>event</mat-icon>
+          <span class="nav-text">Reservas</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="reclamaciones" routerLinkActive="active" class="nav-link">
+          <mat-icon>description</mat-icon>
+          <span class="nav-text">Reclamaciones</span>
+        </a>
+      </li>
+      } @else {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="reclamaciones/{{authService.getIdSucursal()}}" routerLinkActive="active"
+          class="nav-link">
+          <mat-icon>description</mat-icon>
+          <span class="nav-text">Reclamaciones</span>
+        </a>
+      </li>
+      }
+
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="motorizados" routerLinkActive="active" class="nav-link">
+          <mat-icon>two_wheeler</mat-icon>
+          <span class="nav-text">Motorizados</span>
+        </a>
+      </li>
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="menu" routerLinkActive="active" class="nav-link">
+          <mat-icon>list</mat-icon>
+          <span class="nav-text">Menús</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="solicitudes-de-contacto" routerLinkActive="active" class="nav-link">
+          <mat-icon>request_quote</mat-icon>
+          <span class="nav-text">Solicitudes</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="trabaja-con-nosotros" routerLinkActive="active" class="nav-link">
+          <mat-icon>work</mat-icon>
+          <span class="nav-text">Trabajo</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="momentos-magicos" routerLinkActive="active" class="nav-link">
+          <mat-icon>auto_awesome</mat-icon>
+          <span class="nav-text">Momentos Mágicos</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="documentos" routerLinkActive="active" class="nav-link">
+          <mat-icon>folder</mat-icon>
+          <span class="nav-text">Documentos</span>
+        </a>
+      </li>
+      }
+
+      @if (authService.isAdmin()) {
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="configuracion" routerLinkActive="active" class="nav-link">
+          <mat-icon>settings</mat-icon>
+          <span class="nav-text">Configuración</span>
+        </a>
+      </li>
+      }
+
+    </ul>
+    <div class="sidebar-profile">
+      <button class="btn-logout" [matMenuTriggerFor]="menu">
+        <mat-icon>person_outline</mat-icon>
+        <span class="profile-text">
+          {{ user()?.nombre }}
+        </span>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button (click)="logout()" mat-menu-item>Cerrar Sesión</button>
+      </mat-menu>
+    </div>
+  </div>
+</div>

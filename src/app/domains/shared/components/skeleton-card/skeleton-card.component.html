@@ -1,0 +1,13 @@
+<div class="skeleton-card" [class.isLargeCard]="isLargeCard">
+  <div class="skeleton-image shimmer"></div>
+  <div class="skeleton-content">
+    @if (isShowingTitle) {
+    <div class="skeleton-line shimmer"></div>
+    }
+    <div class="skeleton-actions">
+      @for (action of actionsArray; track $index) {
+      <div class="skeleton-action shimmer"></div>
+      }
+    </div>
+  </div>
+</div>

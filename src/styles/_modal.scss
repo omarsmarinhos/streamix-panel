@@ -1,0 +1,34 @@
+.actions {
+  display: flex;
+  gap: 2rem;
+  padding: 1.5rem 2rem 1rem 2rem;
+}
+
+.btn-modal {
+  position: relative;
+  padding: 1rem 2rem;
+  border-radius: .5rem;
+}
+
+.cancel {
+  color: var(--black-color);
+  background-color: var(--border-color);
+}
+
+.delete {
+  color: var(--white-color);
+  background-color: var(--red-color);
+}
+
+.add {
+  color: var(--white-color);
+  background-color: var(--primary-color);
+}
+
+.edit {
+  box-sizing: border-box;
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  border: 1px solid var(--primary-color);
+}
+

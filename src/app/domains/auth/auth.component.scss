@@ -1,0 +1,69 @@
+.bg-image-container {
+  background-color: var(--primary-color);
+  width: 100%;
+  height: 100dvh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.login-form {
+  background-color: white;
+  padding: 3em 6em;
+  border-radius: 2em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  z-index: 10;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2em;
+}
+
+.login-button {
+  position: relative;
+  background-color: #7D2D04;
+  border: none;
+  width: 100%;
+  height: 50px;
+  color: white;
+  border-radius: 1em;
+  cursor: pointer;
+  font-size: 2rem;
+  margin-top: 1rem;
+  font-weight: 700;
+}
+
+.login-button mat-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mt-label {
+  margin-top: 1rem;
+}
+
+.footer-img {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.pollo-img {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.power-by {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}

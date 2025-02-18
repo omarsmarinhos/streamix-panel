@@ -1,0 +1,203 @@
+
+/* Estilo base obligatorio */
+.aos-init {
+  opacity: 0;
+  transition: all 0.6s ease-out;
+}
+
+/* Estado final de la animación */
+.aos-animate {
+  opacity: 1;
+}
+
+/* --------------------------
+   Efectos recomendados (UX friendly)
+-------------------------- */
+
+/* Fade Up (recomendado para la mayoría de casos) */
+.aos-init[data-aos="fade-up"] {
+  transform: translateY(20px);
+}
+
+.aos-animate[data-aos="fade-up"] {
+  transform: translateY(0);
+}
+
+/* Fade Left */
+.aos-init[data-aos="fade-left"] {
+  transform: translateX(50px);
+}
+
+.aos-animate[data-aos="fade-left"] {
+  transform: translateX(0);
+}
+
+/* Fade Right */
+.aos-init[data-aos="fade-right"] {
+  transform: translateX(-50px);
+}
+
+.aos-animate[data-aos="fade-right"] {
+  transform: translateX(0);
+}
+
+/* Zoom In (sutil) */
+.aos-init[data-aos="zoom-in"] {
+  transform: scale(0.95);
+}
+
+.aos-animate[data-aos="zoom-in"] {
+  transform: scale(1);
+}
+
+/* --------------------------
+   Efectos especiales (usar con moderación)
+-------------------------- */
+
+/* Flip Left */
+.aos-init[data-aos="flip-left"] {
+  transform: perspective(1000px) rotateY(-90deg);
+}
+
+.aos-animate[data-aos="flip-left"] {
+  transform: perspective(1000px) rotateY(0);
+}
+
+/* Slide Rotate */
+.aos-init[data-aos="slide-rotate"] {
+  transform: translateY(30px) rotate(5deg);
+}
+
+.aos-animate[data-aos="slide-rotate"] {
+  transform: translateY(0) rotate(0);
+}
+
+/* Fade Up Long (for longer distances) */
+.aos-init[data-aos="fade-up-long"] {
+  transform: translateY(100px);
+  opacity: 0;
+}
+
+.aos-animate[data-aos="fade-up-long"] {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Fade Down */
+.aos-init[data-aos="fade-down"] {
+  transform: translateY(-20px);
+  opacity: 0;
+}
+
+.aos-animate[data-aos="fade-down"] {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Scale Up */
+.aos-init[data-aos="scale-up"] {
+  transform: scale(0.7);
+  opacity: 0;
+}
+
+.aos-animate[data-aos="scale-up"] {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* Rotate In */
+.aos-init[data-aos="rotate-in"] {
+  transform: rotate(-180deg);
+  opacity: 0;
+}
+
+.aos-animate[data-aos="rotate-in"] {
+  transform: rotate(0);
+  opacity: 1;
+}
+
+/* Blur In */
+.aos-init[data-aos="blur-in"] {
+  filter: blur(20px);
+  opacity: 0;
+}
+
+.aos-animate[data-aos="blur-in"] {
+  filter: blur(0);
+  opacity: 1;
+}
+
+/* Swing */
+.aos-init[data-aos="swing"] {
+  transform: rotateZ(5deg);
+  opacity: 0;
+}
+
+.aos-animate[data-aos="swing"] {
+  animation: swing 1s ease-out forwards;
+  opacity: 1;
+}
+
+@keyframes swing {
+  20% { transform: rotateZ(-3deg); }
+  40% { transform: rotateZ(2deg); }
+  60% { transform: rotateZ(-1deg); }
+  80% { transform: rotateZ(1deg); }
+  100% { transform: rotateZ(0); }
+}
+
+/* Bounce In */
+.aos-init[data-aos="bounce-in"] {
+  transform: scale(0.3);
+  opacity: 0;
+}
+
+.aos-animate[data-aos="bounce-in"] {
+  animation: bounceIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  opacity: 1;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.3); }
+  50% { transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+/* Slide Up Fade */
+.aos-init[data-aos="slide-up-fade"] {
+  transform: translateY(30px) scale(0.95);
+  opacity: 0;
+}
+
+.aos-animate[data-aos="slide-up-fade"] {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+.image-skeleton {
+  position: absolute;
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: linear-gradient(90deg,
+      #f0f0f0 0%,
+      #e0e0e0 50%,
+      #f0f0f0 100%);
+  animation: shimmer 2s infinite linear;
+  background-size: 200% 100%;
+}
+
+img {
+  position: relative;
+  transition: opacity 0.3s ease;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
