@@ -8,7 +8,6 @@ import { registerLocaleData } from '@angular/common';
 
 import localeEs from '@angular/common/locales/es-PE';
 import { AuthInterceptor } from './core/auth.interceptor';
-import { AUTH_INITIALIZER } from './core/auth-initializer.provider';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { SpanishPaginatorIntl } from './core/spanish.paginator';
 
@@ -36,7 +35,6 @@ export const appConfig: ApplicationConfig = {
       useClass: AuthInterceptor,
       multi: true,
     },
-    AUTH_INITIALIZER,
     {
       provide: MatPaginatorIntl,
       useClass: SpanishPaginatorIntl

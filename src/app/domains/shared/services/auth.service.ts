@@ -1,94 +1,58 @@
+// auth.service.ts
 import { inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 import { Router } from '@angular/router';
-import { AuthIndexedDBService } from './auth-indexed-db.service';
+import { SupabaseService } from './supabase.service';
 import { AlertService } from './alert.service';
-import { User } from '../models/user.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-
-  private readonly baseUrl = environment.apiUrl;
-  private readonly http = inject(HttpClient);
+  private readonly supabase = inject(SupabaseService);
   private readonly router = inject(Router);
-  private readonly dbService = inject(AuthIndexedDBService);
   private readonly alertService = inject(AlertService);
-  private initialized = false;
+  
+  private readonly userSignal = signal<any>(null);
 
-  user = signal<User | null>(null)
+  get user() {
+    return this.userSignal();
+  }
 
-  constructor() { }
-
-  async initialize(): Promise<void> {
-    if (this.initialized) return;
-
+  async login(username: string, password: string) {
     try {
-      await this.dbService.initializeDB();
-      await this.loadUserData();
-      this.initialized = true;
-    } catch (error) {
-      console.error('Error initializing user service:', error);
-      this.alertService.showWarning(
-        "Hubo un problema al cargar los datos del usuario"
-      );
-    }
-  }
+      console.log('Username enviado:', username);
+      console.log('Password enviado:', password);
 
-  private async loadUserData(): Promise<void> {
-    const [user] = await Promise.all([
-      this.dbService.getUser()
-    ])
+      const data = await this.supabase.validateUserCredentials(username, password);
 
-    this.user.set(user);
-  }
+      if (!data || (Array.isArray(data) && data.length === 0)) {
+        this.alertService.showWarning('Credenciales incorrectas');
+        throw new Error('Credenciales inválidas');
+      }
 
-  login(username: string, password: string) {
-    return this.http.post<User>(`${this.baseUrl}/auth/token`, { username: username, password: password });
-  }
-
-  async setUser(user: User) {
-    try {
-      await this.dbService.saveUser(user)
-      this.user.set(user);
-      this.router.navigate(['/']);
-    } catch (error) {
-      console.error('Error setting user:', error);
-      this.alertService.showWarning(
-        "No se pudo establecer el usuario."
-      );
+      console.log('Usuario encontrado:', data);
+      this.userSignal.set(data);
+      this.alertService.showSuccess('Login exitoso');
+      this.router.navigate(['/dashboard']);
+      
+      return data;
+    } catch (error: any) {
+      console.error('Error en login:', error.message);
+      this.alertService.showWarning('Error de autenticación');
+      throw error;
     }
   }
 
   async logout() {
     try {
-      await this.dbService.clearUserData();
-      this.user.set(null);
+      await this.supabase.signOut();
+      this.userSignal.set(null);
       this.router.navigate(['/auth']);
     } catch (error) {
-      console.error('Error during logout:', error);
-      this.alertService.showWarning(
-        "Hubo un problema al cerrar sesión"
-      );
+      console.error('Error en logout:', error);
+      throw error;
     }
   }
 
-  isAdmin() {
-    return this.user()?.rol === 'Admin';
+  isAuthenticated(): boolean {
+    return !!this.userSignal();
   }
-
-  isSynchronizedWithFast() {
-    return this.user()?.lFast;
-  }
-
-  getIdSucursal() {
-    return this.user()?.idSucursal;
-  }
-
-  getId() {
-    return this.user()?.id;
-  }
-
 }

@@ -5,10 +5,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
 import { AlertService } from '../shared/services/alert.service';
 import { AuthService } from '../shared/services/auth.service';
-import { ErrorHandlerService } from '../shared/services/error-handler.service';
 import { PowerByComponent } from '../shared/components/power-by/power-by.component';
 
 @Component({
@@ -35,10 +33,8 @@ export default class AuthComponent {
   @ViewChild('usuarioInput') usuarioInput!: ElementRef;
 
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
   private readonly alertService = inject(AlertService);
-  private readonly errorService = inject(ErrorHandlerService);
 
   constructor() {
     this.loginForm = this.formBuilder.group({
@@ -60,33 +56,20 @@ export default class AuthComponent {
     });
   }
 
-  login() {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
+  async login() {
+    if (this.loginForm.invalid) return;
 
-      if (
-        this.loginForm.get('usuario')?.hasError('required') ||
-        this.loginForm.get('clave')?.hasError('required')
-      ) {
-        this.alertService.showWarning('Por favor, completa todos los campos.');
-      } else {
-        this.alertService.showWarning('Por favor, corrige los errores en el formulario.');
-      }
-      return;
-    }
     this.isLoading = true;
-    const { usuario, clave } = this.loginForm.value;
-    this.authService.login(usuario, clave).subscribe({
-      next: (response) => {
-        this.isLoading = false;
-        this.alertService.showSuccess('Login exitoso.');
-        this.authService.setUser(response);
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.errorService.showError(err);
-      },
-    });
+    try {
+      await this.authService.login(
+        this.loginForm.value.usuario,
+        this.loginForm.value.clave
+      );
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   getErrorMessage(controlName: string): string {
@@ -101,12 +84,5 @@ export default class AuthComponent {
       return 'No se permiten espacios en blanco';
     }
     return '';
-  }
-
-  private readonly audio = new Audio('pollo.mp3');
-
-  playSound(): void {
-    this.audio.currentTime = 0; // Reinicia el audio si ya se reprodujo
-    this.audio.play();
   }
 }

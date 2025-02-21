@@ -28,11 +28,4 @@ export default class LayoutComponent {
   toggleSizeSideBarContainer() {
     this.collapsedService.toggleCollapsed();
   }
-
-  private readonly audio = new Audio('pollo.mp3');
-
-  playSound(): void {
-    this.audio.currentTime = 0; // Reinicia el audio si ya se reprodujo
-    this.audio.play();
-  }
 }

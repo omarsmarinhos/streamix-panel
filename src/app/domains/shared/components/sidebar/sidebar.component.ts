@@ -29,6 +29,10 @@ export class SidebarComponent {
 
   isCollapsed = this.collapsedService.isCollapsed;
 
+  constructor() {
+    console.log(this.user())
+  }
+
   toggleSidebar() {
     this.collapsedService.toggleCollapsed();
   }
