@@ -38,11 +38,11 @@ export default class AuthComponent {
 
   constructor() {
     this.loginForm = this.formBuilder.group({
-      usuario: [
+      usuario: [ // Mantén el nombre del campo como 'usuario' si así lo prefieres
         '',
         [
           Validators.required,
-          Validators.minLength(2),
+          Validators.email, // Agregamos validación de email
           Validators.pattern(/^\S*$/),
         ],
       ],
@@ -57,20 +57,25 @@ export default class AuthComponent {
   }
 
   async login() {
-    if (this.loginForm.invalid) return;
+    if (this.loginForm.invalid) {
+      console.log('Formulario inválido:', this.loginForm.errors);
+      return;
+    }
 
     this.isLoading = true;
     try {
+      console.log('Intentando login con:', this.loginForm.value.usuario);
       await this.authService.login(
-        this.loginForm.value.usuario,
+        this.loginForm.value.usuario, // Este valor debe ser un email
         this.loginForm.value.clave
       );
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Error en componente de login:', error);
     } finally {
       this.isLoading = false;
     }
   }
+
 
   getErrorMessage(controlName: string): string {
     const control = this.loginForm.get(controlName);

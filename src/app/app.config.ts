@@ -3,11 +3,10 @@ import { PreloadAllModules, provideRouter, withComponentInputBinding, withInMemo
 
 import { routes } from './app.routes';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { registerLocaleData } from '@angular/common';
 
 import localeEs from '@angular/common/locales/es-PE';
-import { AuthInterceptor } from './core/auth.interceptor';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { SpanishPaginatorIntl } from './core/spanish.paginator';
 
@@ -30,11 +29,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     { provide: LOCALE_ID, useValue: 'es-PE' },
     provideHttpClient(withInterceptorsFromDi()),
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
     {
       provide: MatPaginatorIntl,
       useClass: SpanishPaginatorIntl

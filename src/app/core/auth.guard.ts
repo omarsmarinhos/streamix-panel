@@ -7,7 +7,7 @@ export const privateGuard = (): CanActivateFn => {
     const router = inject(Router);
     const authService = inject(AuthService);
 
-    if (authService.isAuthenticated()) {
+    if (authService.session()) {
       return true;
     } else {
       router.navigate(['/auth']);

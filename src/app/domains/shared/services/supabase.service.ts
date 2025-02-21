@@ -1,37 +1,86 @@
-// supabase.service.ts
 import { Injectable } from "@angular/core";
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import {
+  AuthSession,
+  createClient,
+  SupabaseClient,
+} from '@supabase/supabase-js'
 import { environment } from "../../../../environments/environment.development";
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
-  private readonly supabase: SupabaseClient;
+  private supabase: SupabaseClient;
+  _session: AuthSession | null = null;
 
   constructor() {
-    this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey);
+    this.supabase = createClient(
+      environment.supabaseUrl, 
+      environment.supabaseKey,
+      {
+        auth: {
+          autoRefreshToken: true,
+          persistSession: true
+        }
+      }
+    );
+    
+    // Debug: Mostrar si la conexión está configurada
+    console.log('Supabase inicializado con URL:', environment.supabaseUrl);
+    
+    this.loadSession();
   }
 
-  async validateUserCredentials(username: string, password: string) {
+  private async loadSession() {
+    const { data, error } = await this.supabase.auth.getSession();
+    if (error) {
+      console.error('Error al cargar sesión:', error);
+    } else {
+      this._session = data.session;
+      console.log('Sesión cargada:', this._session ? 'Existe' : 'No existe');
+    }
+    
+    this.supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Cambio de estado de auth:', event, session ? 'Con sesión' : 'Sin sesión');
+      this._session = session;
+    });
+  }
+
+  get session() {
+    return this._session;
+  }
+
+  get auth() {
+    return this.supabase.auth;
+  }
+
+  async signInWithCredentials(email: string, password: string) {
+    console.log('Intentando login con:', email);
     try {
-      const { data, error } = await this.supabase.rpc('validate_user_credentials', {
-        p_username: username,
-        p_password: password
+      const { data, error } = await this.supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
       if (error) {
-        console.error('Error en validate_user_credentials:', error.message);
-        throw new Error(error.message);
+        console.error('Error de autenticación:', error);
+        throw error;
       }
-
+      
+      console.log('Login exitoso:', data);
       return data;
-    } catch (error: any) {
-      console.error('Error en validateUserCredentials:', error.message);
+    } catch (error) {
+      console.error('Error en signInWithCredentials:', error);
       throw error;
     }
   }
 
   async signOut() {
-    const { error } = await this.supabase.auth.signOut();
-    if (error) throw error;
+    try {
+      const { error } = await this.supabase.auth.signOut();
+      if (error) throw error;
+      console.log('Logout exitoso');
+    } catch (error) {
+      console.error('Error en signOut:', error);
+      throw error;
+    }
   }
 }
