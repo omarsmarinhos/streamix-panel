@@ -1,5 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-power-by',
@@ -10,6 +9,13 @@ import { AuthService } from '../../services/auth.service';
 })
 export class PowerByComponent {
 
-  private readonly authService = inject(AuthService);
-  isSynchronizedWithFast = this.authService.isSynchronizedWithFast();
+  currentYear: number;
+
+  constructor() {
+    this.currentYear = this.getCurrentYear();
+  }
+
+  getCurrentYear(): number {
+    return new Date().getFullYear();
+  }
 }

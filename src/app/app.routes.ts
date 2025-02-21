@@ -4,13 +4,13 @@ import { adminGuard, isAuthorizedForBranch, privateGuard, publicGuard } from './
 export const routes: Routes = [
   {
     path: 'auth',
-    canActivate: [publicGuard()],
+    // canActivate: [publicGuard()],
     loadComponent: () => import('./domains/auth/auth.component')
   },
   {
     path: '',
     loadComponent: () => import('./domains/shared/components/layout/layout.component'),
-    canActivate: [privateGuard()],
+    // canActivate: [privateGuard()],
     children: [
       
       {
