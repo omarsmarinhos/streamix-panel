@@ -15,15 +15,27 @@ export class AuthService {
   user = signal<User | null>(null);
 
   constructor() {
-    // Inicializar con la sesión existente
-    this.session.set(this.supabase.session);
-    this.user.set(this.supabase.session?.user ?? null);
+    // Iniciar con sesión nula y luego cargarla de forma asíncrona
+    this.session.set(null);
+    this.user.set(null);
     
-    // Escuchar cambios de sesión
+    // Primero cargar la sesión guardada
+    this.supabase.auth.getSession().then(({ data }) => {
+      if (data?.session) {
+        this.session.set(data.session);
+        this.user.set(data.session?.user ?? null);
+      }
+    });
+    
+    // Luego escuchar cambios
     this.supabase.auth.onAuthStateChange((event, session) => {
       console.log('AuthService: Cambio de estado:', event);
-      this.session.set(session);
-      this.user.set(session?.user ?? null);
+      
+      // Usar un pequeño retraso para evitar condiciones de carrera
+      setTimeout(() => {
+        this.session.set(session);
+        this.user.set(session?.user ?? null);
+      }, 100);
     });
   }
 

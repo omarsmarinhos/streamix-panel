@@ -18,7 +18,19 @@ export class SupabaseService {
       {
         auth: {
           autoRefreshToken: true,
-          persistSession: true
+          persistSession: true,
+          storageKey: 'sb-auth-token', // Personaliza la clave
+          storage: {
+            getItem: key => localStorage.getItem(key),
+            setItem: (key, value) => {
+              try {
+                localStorage.setItem(key, value)
+              } catch (error) {
+                console.error('Error al guardar token:', error)
+              }
+            },
+            removeItem: key => localStorage.removeItem(key)
+          }
         }
       }
     );
