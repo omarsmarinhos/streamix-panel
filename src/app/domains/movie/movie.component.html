@@ -1,0 +1,12 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <input type="number" formControlName="id" placeholder="id">
+  <input formControlName="title" placeholder="Título">
+  <input type="number" formControlName="release_year" placeholder="Año">
+  <input type="number" formControlName="rating" placeholder="Rating">
+  <input formControlName="quality" placeholder="Calidad">
+  <input formControlName="poster_url_large" placeholder="URL del póster">
+  <input formControlName="video_url" placeholder="URL del video">
+  <input type="number" formControlName="duration_minutes" placeholder="Duración">
+  <input type="date" formControlName="release_date" placeholder="Fecha de estreno">
+  <button type="submit" [disabled]="form.invalid">Guardar</button>
+</form>

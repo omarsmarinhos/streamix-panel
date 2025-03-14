@@ -3,13 +3,13 @@
     <a id="logo-mobile">&nbsp;</a>
     <a id="logo-full">
       @if (!isCollapsed()) {
-      <img src="logo.png" alt="Granja linda logo">
+      <img src="logo.png" alt="Streamix logo">
       <div>
         <span>Panel</span>
         <span>Administrativo</span>
       </div>
       } @else {
-      <img src="logo-2.png" alt="Granja linda logo">
+      <img src="logo-2.png" alt="Streamix logo">
       }
     </a>
     <button id="btn-cerrar" (click)="toggleSidebar()" mat-icon-button>
@@ -21,23 +21,23 @@
     <ul class="sidebar-nav">
 
       <li class="nav-item">
-        <a (click)="openSideBar()" routerLink="sucursales" routerLinkActive="active" class="nav-link">
+        <a (click)="openSideBar()" routerLink="movies" routerLinkActive="active" class="nav-link">
+          <mat-icon>movie</mat-icon>
+          <span class="nav-text">Película</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a (click)="openSideBar()" routerLink="test01" routerLinkActive="active" class="nav-link">
           <mat-icon>store</mat-icon>
-          <span class="nav-text">Sucursales</span>
+          <span class="nav-text">test 01</span>
         </a>
       </li>
 
       <li class="nav-item">
-        <a (click)="openSideBar()" routerLink="pedidos" routerLinkActive="active" class="nav-link">
+        <a (click)="openSideBar()" routerLink="test02" routerLinkActive="active" class="nav-link">
           <mat-icon>shopping_cart</mat-icon>
-          <span class="nav-text">Pedidos</span>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a (click)="openSideBar()" routerLink="motorizados" routerLinkActive="active" class="nav-link">
-          <mat-icon>two_wheeler</mat-icon>
-          <span class="nav-text">Motorizados</span>
+          <span class="nav-text">test 02</span>
         </a>
       </li>
 
@@ -46,7 +46,7 @@
       <button class="btn-logout" [matMenuTriggerFor]="menu">
         <mat-icon>person_outline</mat-icon>
         <span class="profile-text">
-          {{ user() }}
+          {{ user()?.email }}
         </span>
       </button>
       <mat-menu #menu="matMenu">

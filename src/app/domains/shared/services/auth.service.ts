@@ -15,15 +15,27 @@ export class AuthService {
   user = signal<User | null>(null);
 
   constructor() {
-    // Inicializar con la sesión existente
-    this.session.set(this.supabase.session);
-    this.user.set(this.supabase.session?.user ?? null);
-    
+    this.initializeAuth();
+  }
+
+  private async initializeAuth() {
+    // Recuperar sesión al inicio
+    const { data: { session } } = await this.supabase.auth.getSession();
+    if (session) {
+      this.session.set(session);
+      this.user.set(session.user);
+    }
+
     // Escuchar cambios de sesión
     this.supabase.auth.onAuthStateChange((event, session) => {
-      console.log('AuthService: Cambio de estado:', event);
       this.session.set(session);
       this.user.set(session?.user ?? null);
+
+      if (event === 'SIGNED_OUT') {
+        this.router.navigate(['/auth']);
+      } else if (event === 'SIGNED_IN') {
+        this.router.navigate(['/dashboard']);
+      }
     });
   }
 

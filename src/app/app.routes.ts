@@ -11,7 +11,18 @@ export const routes: Routes = [
     loadComponent: () => import('./domains/shared/components/layout/layout.component'),
     canActivate: [privateGuard()],
     children: [
-      
+      {
+        path: 'movies',
+        loadComponent: () => import('./domains/movie/movie.component')
+      },
+      {
+        path: 'test01',
+        loadComponent: () => import('./domains/test01/test01.component')
+      },
+      {
+        path: 'test02',
+        loadComponent: () => import('./domains/test02/test02.component')
+      },
       {
         path: '**',
         redirectTo: '',

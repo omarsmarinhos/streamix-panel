@@ -8,7 +8,8 @@ import { environment } from "../../../../environments/environment.development";
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
-  private supabase: SupabaseClient;
+
+  readonly supabase: SupabaseClient;
   _session: AuthSession | null = null;
 
   constructor() {
@@ -18,29 +19,19 @@ export class SupabaseService {
       {
         auth: {
           autoRefreshToken: true,
-          persistSession: true
+          persistSession: true,
+          storage: localStorage // Aseguramos que use localStorage
         }
       }
     );
     
-    // Debug: Mostrar si la conexión está configurada
-    console.log('Supabase inicializado con URL:', environment.supabaseUrl);
-    
-    this.loadSession();
+    this.initializeAuth();
   }
 
-  private async loadSession() {
-    const { data, error } = await this.supabase.auth.getSession();
-    if (error) {
-      console.error('Error al cargar sesión:', error);
-    } else {
-      this._session = data.session;
-      console.log('Sesión cargada:', this._session ? 'Existe' : 'No existe');
-    }
-    
+  private initializeAuth() {
     this.supabase.auth.onAuthStateChange((event, session) => {
-      console.log('Cambio de estado de auth:', event, session ? 'Con sesión' : 'Sin sesión');
-      this._session = session;
+      this._session = session; // Siempre actualiza la sesión
+      console.log('Evento de auth:', event, session);
     });
   }
 
@@ -64,7 +55,7 @@ export class SupabaseService {
         console.error('Error de autenticación:', error);
         throw error;
       }
-      
+
       console.log('Login exitoso:', data);
       return data;
     } catch (error) {
