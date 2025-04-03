@@ -1,0 +1,95 @@
+@use './../../../styles/mixins' as m;
+
+.movie-div {
+    position: relative;
+    padding: 4rem;
+    height: calc(100dvh - 18rem);
+
+    @include m.laptop {
+        height: calc(100dvh - 14rem);
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: 100%;
+
+    input {
+        height: 3.5rem;
+        padding: 0 1rem;
+        border: none;
+        border-radius: .5rem;
+        background-color: var(--neutral-color);
+        color: var(--white-color);
+        outline: 1px solid var(--white-transparent01-color);
+
+        &:focus-visible {
+            outline: 2px solid var(--primary-color);
+        }
+
+        &::placeholder {
+            color: var(--white-transparent01-color);
+            color: var;
+        }
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        filter: invert(0);
+    }
+
+    button {
+        height: 3.5rem;
+        padding: 0 2rem;
+        border: none;
+        border-radius: .5rem;
+        background-color: var(--primary-color);
+        color: var(--white-color);
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        font-size: 1.8rem;
+
+        &:hover {
+            background-color: var(--primary-hover-color);
+        }
+
+        &:active {
+            background-color: var(--primary-active-color);
+        }
+
+        &:disabled {
+            background-color: var(--primary-disabled-color);
+            color: var(--white-transparent01-color);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+    }
+}
+
+.spinner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: -webkit-fill-available;
+    pointer-events: none;
+    z-index: 1000;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom, rgba(27, 27, 63, 0.8), rgba(0, 0, 0, 0.6));
+        pointer-events: all;
+        border-radius: 1rem;
+    }
+}
