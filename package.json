@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "setup-env": "node scripts/setup-env.js",
+    "prestart": "npm run setup-env",
     "start": "ng serve",
+    "prebuild": "npm run setup-env",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -34,6 +37,7 @@
     "@angular/cli": "^18.2.14",
     "@angular/compiler-cli": "^18.2.13",
     "@types/jasmine": "~5.1.0",
+    "dotenv": "^16.6.1",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
